@@ -1,0 +1,38 @@
+# Node.js modules
+node_modules/
+
+# Vite build output folder
+dist/
+.build/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment files (do not commit secrets)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Vite cache and temporary files
+.vite/
+
+# Coverage directory used by testing tools like Jest
+coverage/
+
+# IDE/editor folders
+.vscode/
+.idea/
+
+# Miscellaneous
+*.cache
+*.pid
