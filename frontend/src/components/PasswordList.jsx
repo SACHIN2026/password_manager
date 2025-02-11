@@ -10,12 +10,21 @@ import {
   TextField,
   List,
   ListItem,
+  IconButton
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const PasswordList = ({ passwords = [], onPasswordUpdated }) => {
   const [editingId, setEditingId] = useState(null);
   const [updatedPassword, setUpdatedPassword] = useState("");
+  // Object to track which password is visible (true: show, false: mask)
+  const [showPassword, setShowPassword] = useState({});
+
+  const handleToggleVisibility = (id) => {
+    setShowPassword(prevState => ({ ...prevState, [id]: !prevState[id] }));
+  };
 
   const handleUpdate = async (id) => {
     try {
@@ -78,13 +87,22 @@ const PasswordList = ({ passwords = [], onPasswordUpdated }) => {
                           </Button>
                         </Box>
                       ) : (
-                        <Typography
-                          variant="body2"
-                          color={pwd.password === "DECRYPTION_ERROR" ? "error" : "text.secondary"}
-                          sx={{ mt: 1 }}
-                        >
-                          {pwd.password}
-                        </Typography>
+                        <Box sx={{ display: "flex", alignItems: "center", mt: 1 }}>
+                          <Typography
+                            variant="body2"
+                            color={pwd.password === "DECRYPTION_ERROR" ? "error" : "text.secondary"}
+                            sx={{ flexGrow: 1 }}
+                          >
+                            {showPassword[pwd.id]
+                              ? pwd.password
+                              : "••••••••••••"}
+                          </Typography>
+                          {pwd.password !== "DECRYPTION_ERROR" && (
+                            <IconButton onClick={() => handleToggleVisibility(pwd.id)}>
+                              {showPassword[pwd.id] ? <VisibilityOffIcon /> : <VisibilityIcon />}
+                            </IconButton>
+                          )}
+                        </Box>
                       )}
                       <Box sx={{ mt: 2, display: "flex", gap: 1 }}>
                         {editingId !== pwd.id && (
@@ -107,10 +125,7 @@ const PasswordList = ({ passwords = [], onPasswordUpdated }) => {
                           Delete
                         </Button>
                         {editingId === pwd.id && (
-                          <Button
-                            variant="text"
-                            onClick={() => setEditingId(null)}
-                          >
+                          <Button variant="text" onClick={() => setEditingId(null)}>
                             Cancel
                           </Button>
                         )}
