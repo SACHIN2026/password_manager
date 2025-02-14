@@ -11,6 +11,7 @@ import {
   CircularProgress
 } from "@mui/material";
 import { motion } from "framer-motion";
+import Navbar from "./Navbar";
 
 const PasswordForm = ({ onPasswordAdded }) => {
   const [site, setSite] = useState("");
@@ -44,6 +45,8 @@ const PasswordForm = ({ onPasswordAdded }) => {
   };
 
   return (
+    <>
+    <Navbar/>
     <Box
       component={motion.form}
       onSubmit={handleSubmit}
@@ -106,6 +109,8 @@ const PasswordForm = ({ onPasswordAdded }) => {
         </Alert>
       </Snackbar>
     </Box>
+    </>
+    
   );
 };
 
