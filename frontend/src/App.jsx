@@ -9,6 +9,7 @@ import PasswordForm from "./components/PasswordForm";
 import PasswordList from "./components/PasswordList";
 import { getToken } from "./utils/auth";
 import { Container } from "@mui/material";
+import Passwords from "./pages/Passwords";
 
 const App = () => {
   const isAuthenticated = !!getToken();
@@ -24,7 +25,7 @@ const App = () => {
           <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
           <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
           <Route path="/add-password" element={isAuthenticated ? <PasswordForm /> : <Navigate to="/login" />} />
-          <Route path="/passwords" element={isAuthenticated ? <PasswordList /> : <Navigate to="/login" />} />
+          <Route path="/passwords" element={isAuthenticated ? <Passwords/> : <Navigate to="/login" />} />
         </Routes>
       </Container>
     </Router>
