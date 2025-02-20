@@ -1,5 +1,6 @@
 // controllers/passwordController.js
 const Password = require("../models/Password");
+const AuditLog = require("../models/AuditLog"); // Import the audit log model
 const { encryptPassword, decryptPassword } = require("../utils/fernetUtils");
 
 // Add a new password
@@ -20,6 +21,14 @@ const addPassword = async (req, res) => {
       encryptedPassword,
     });
 
+    // Create an audit log entry for creation
+    await AuditLog.create({
+      user: req.user.id,
+      passwordId: newPassword._id,
+      action: "created",
+      details: `Created password for site ${siteName}`,
+    });
+
     res.status(201).json(newPassword);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
@@ -32,7 +41,6 @@ const getPasswords = async (req, res) => {
     const passwords = await Password.find({ user: req.user.id });
 
     // Decrypt each password before sending.
-    // If decryption fails for a password, catch the error and use a fallback string.
     const decryptedPasswords = passwords.map((pw) => {
       let decrypted = "";
       try {
@@ -75,6 +83,14 @@ const updatePassword = async (req, res) => {
       return res.status(404).json({ message: "Password not found." });
     }
 
+    // Create an audit log entry for update
+    await AuditLog.create({
+      user: req.user.id,
+      passwordId: updatedPassword._id,
+      action: "updated",
+      details: `Updated password for site ${updatedPassword.siteName}`,
+    });
+
     res.status(200).json(updatedPassword);
   } catch (error) {
     res.status(500).json({ message: "Server error", error: error.message });
@@ -91,6 +107,14 @@ const deletePassword = async (req, res) => {
     if (!deletedPassword) {
       return res.status(404).json({ message: "Password not found." });
     }
+
+    // Create an audit log entry for deletion
+    await AuditLog.create({
+      user: req.user.id,
+      passwordId: deletedPassword._id,
+      action: "deleted",
+      details: `Deleted password for site ${deletedPassword.siteName}`,
+    });
 
     res.status(200).json({ message: "Password deleted successfully." });
   } catch (error) {
