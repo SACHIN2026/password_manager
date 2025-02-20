@@ -1,4 +1,4 @@
-// components/PasswordList.jsx
+// src/components/PasswordList.jsx
 import React, { useState } from "react";
 import API from "../utils/api";
 import {
@@ -13,17 +13,16 @@ import {
   IconButton
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 const PasswordList = ({ passwords = [], onPasswordUpdated }) => {
   const [editingId, setEditingId] = useState(null);
   const [updatedPassword, setUpdatedPassword] = useState("");
-  // Object to track which password is visible (true: show, false: mask)
   const [showPassword, setShowPassword] = useState({});
 
   const handleToggleVisibility = (id) => {
-    setShowPassword(prevState => ({ ...prevState, [id]: !prevState[id] }));
+    setShowPassword(prev => ({ ...prev, [id]: !prev[id] }));
   };
 
   const handleUpdate = async (id) => {
@@ -78,11 +77,7 @@ const PasswordList = ({ passwords = [], onPasswordUpdated }) => {
                             value={updatedPassword}
                             onChange={(e) => setUpdatedPassword(e.target.value)}
                           />
-                          <Button
-                            variant="contained"
-                            color="success"
-                            onClick={() => handleUpdate(pwd.id)}
-                          >
+                          <Button variant="contained" color="success" onClick={() => handleUpdate(pwd.id)}>
                             Save
                           </Button>
                         </Box>
@@ -93,9 +88,7 @@ const PasswordList = ({ passwords = [], onPasswordUpdated }) => {
                             color={pwd.password === "DECRYPTION_ERROR" ? "error" : "text.secondary"}
                             sx={{ flexGrow: 1 }}
                           >
-                            {showPassword[pwd.id]
-                              ? pwd.password
-                              : "••••••••••••"}
+                            {showPassword[pwd.id] ? pwd.password : "••••••••••••"}
                           </Typography>
                           {pwd.password !== "DECRYPTION_ERROR" && (
                             <IconButton onClick={() => handleToggleVisibility(pwd.id)}>
@@ -117,11 +110,7 @@ const PasswordList = ({ passwords = [], onPasswordUpdated }) => {
                             Edit
                           </Button>
                         )}
-                        <Button
-                          variant="outlined"
-                          color="error"
-                          onClick={() => handleDelete(pwd.id)}
-                        >
+                        <Button variant="outlined" color="error" onClick={() => handleDelete(pwd.id)}>
                           Delete
                         </Button>
                         {editingId === pwd.id && (

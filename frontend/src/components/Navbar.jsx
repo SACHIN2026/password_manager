@@ -1,6 +1,6 @@
-// components/Navbar.jsx
+// src/components/Navbar.jsx
 import React from "react";
-import { AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { AppBar, Toolbar, Typography, Button, Avatar } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { getUserFromToken, removeToken } from "../utils/auth";
@@ -30,8 +30,15 @@ const Navbar = () => {
           </Button>
           {user ? (
             <>
-              <Typography variant="body1" sx={{ mx: 2 }}>
-                {user.username}
+              <Avatar
+                src={user.profilePic || ""}
+                sx={{ width: 32, height: 32, mr: 1, cursor: "pointer" }}
+                onClick={() => navigate("/profile")}
+              >
+                {user.username ? user.username.charAt(0).toUpperCase() : ""}
+              </Avatar>
+              <Typography variant="body1" sx={{ mx: 1 }}>
+                {user.username || "Profile"}
               </Typography>
               <Button color="inherit" component={Link} to="/dashboard">
                 Dashboard
@@ -41,6 +48,12 @@ const Navbar = () => {
               </Button>
               <Button color="inherit" component={Link} to="/passwords">
                 Passwords
+              </Button>
+              <Button color="inherit" component={Link} to="/two-factor">
+                2FA
+              </Button>
+              <Button color="inherit" component={Link} to="/audit">
+                Audit Logs
               </Button>
               <Button color="inherit" onClick={handleLogout}>
                 Logout

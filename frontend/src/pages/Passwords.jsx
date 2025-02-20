@@ -1,9 +1,9 @@
-// pages/Passwords.jsx
+// src/pages/Passwords.jsx
 import React, { useEffect, useState } from "react";
 import API from "../utils/api";
-import PasswordList from "../components/PasswordList";
-import Navbar from "../components/Navbar";
 import { Container, Typography } from "@mui/material";
+import Navbar from "../components/Navbar";
+import PasswordList from "../components/PasswordList";
 
 const Passwords = () => {
   const [passwords, setPasswords] = useState([]);
