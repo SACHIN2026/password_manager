@@ -39,7 +39,7 @@ const App = () => {
             <Route path="/register" element={<Register />} />
 
             {/* Protected Routes */}
-            <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
+            <Route path="/" element={<Home />} />
             <Route path="/dashboard" element={isAuthenticated ? <Dashboard /> : <Navigate to="/login" />} />
             <Route path="/add-password" element={isAuthenticated ? <PasswordForm /> : <Navigate to="/login" />} />
             <Route path="/passwords" element={isAuthenticated ? <Passwords /> : <Navigate to="/login" />} />
